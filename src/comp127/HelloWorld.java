@@ -19,6 +19,5 @@ public class HelloWorld {
         System.out.println("You are using java version: '"+javaVersion+"'");
         System.out.println("The string shown should start with '12.'");
         System.out.println("If it does not you are likely not using the correct version of java for our class.");
-
     }
 }
