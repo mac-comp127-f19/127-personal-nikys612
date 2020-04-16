@@ -3,6 +3,9 @@ package graphingCalculator;
 import comp127graphics.CanvasWindow;
 import comp127graphics.Line;
 import comp127graphics.Point;
+import comp127graphics.Rectangle;
+import comp127graphics.events.MouseButtonEventHandler;
+import comp127graphics.ui.Button;
 
 import java.awt.Color;
 import java.util.ArrayList;
@@ -16,6 +19,7 @@ public class GraphingCalculator {
     private double xmin, xmax, step;  // computed from origin + scale + size
     private double animationParameter;
     private Line xaxis, yaxis;
+    private boolean animating;
 
     /**
      * Creates a new graphing calculator with its own window.
@@ -32,12 +36,30 @@ public class GraphingCalculator {
 
         xaxis = createAxisLine();
         yaxis = createAxisLine();
+        Button zoomOut = new Button("Zoom Out");
+        zoomOut.setPosition(0,0);
+        canvas.add(zoomOut);
+        zoomOut.onClick(() -> setScale(getScale() / 1.5));
+        Button zoomIn = new Button("Zoom in");
+        zoomIn.setPosition(zoomOut.getBounds().getWidth(),0);
+        canvas.add(zoomIn);
+        zoomIn.onClick(() -> setScale(getScale() * 1.5));
 
         coordinatesChanged();
 
-        canvas.animate(() ->
-            setAnimationParameter(
-                getAnimationParameter() + 0.01));
+        animating = false;
+
+        if (animating) {
+            canvas.animate(() ->
+                    setAnimationParameter(
+                            getAnimationParameter() + 0.01));
+        }
+
+
+        canvas.onDrag(event ->
+                setAnimationParameter(
+                        event.getDelta().getX() / width + getAnimationParameter()));
+
     }
 
     /**
