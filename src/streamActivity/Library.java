@@ -45,7 +45,7 @@ public class Library {
         List<String> result = new ArrayList<>();
         result = books.stream()
                 .filter(d->d.getGenres().contains(genre))
-                .map(Book::getTitle) //???
+                .map(Book::getTitle)
                 .collect(toList());
         return result;
     }
